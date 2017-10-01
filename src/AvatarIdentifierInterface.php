@@ -44,7 +44,7 @@ interface AvatarIdentifierInterface {
 
   /**
    * Sets the pre-hashed identifier.
-
+   *
    * @param string $string
    *   The hashed identifier.
    *

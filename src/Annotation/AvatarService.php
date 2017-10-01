@@ -1,5 +1,8 @@
 <?php
 
+// @codingStandardsIgnoreFile
+// Coding standard does not like that properties are not camelCase.
+
 declare(strict_types = 1);
 
 namespace dpi\ak\Annotation;

@@ -123,11 +123,6 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
 
     $this->annotations = [];
     foreach ($this->classes as $class) {
-
-//      if (!class_exists($class)) {
-//        continue;
-//      }
-
       $reflection = new \ReflectionClass($class);
       if (!$reflection->isSubclassOf($this->serviceInterface)) {
         continue;
@@ -177,11 +172,6 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
     // Add the namespace so plugins don't have to use FQN annotation. Only
     // simple reader has this feature.
     $reader->addNamespace('\dpi\ak\Annotation');
-    //    $reader = new \Doctrine\Common\Annotations\FileCacheReader(
-    //      $reader,
-    //      dirname(__DIR__) . '' . DIRECTORY_SEPARATOR . 'cache',
-    //      true
-    //    );
     return $reader;
   }
 
