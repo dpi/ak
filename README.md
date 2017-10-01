@@ -1,6 +1,8 @@
 Avatar Kit
 https://github.com/dpi/ak
 
+[![CircleCI](https://circleci.com/gh/dpi/ak.svg?style=svg)](https://circleci.com/gh/dpi/ak)
+
 # Copyright and License
 
 Copyright 2017 Daniel Phin
