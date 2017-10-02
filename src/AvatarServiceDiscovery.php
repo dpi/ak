@@ -51,7 +51,7 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
    * @var string[]
    *   An array of classes keyed by annotation ID.
    */
-  protected $idMap = [];
+  protected $idMap;
 
   /**
    * Cache of avatar service classes.
