@@ -34,7 +34,6 @@ class AvatarServiceFactory implements AvatarServiceFactoryInterface {
    */
   public function createService($id, AvatarConfigurationInterface $configuration) : AvatarServiceInterface {
     // @todo if plugin is remote, require a destination for avatars.
-    $instance = $this->discovery->newInstance($id);
     $metadata = $this->discovery->getMetadata($id);
 
     // Protocol.
@@ -66,9 +65,25 @@ class AvatarServiceFactory implements AvatarServiceFactoryInterface {
       }
     }
 
-    $instance->setConfiguration($configuration);
+    $class = $this->discovery->getClass($id);
+    $instance = $this->newInstance($class, $configuration);
 
     return $instance;
+  }
+
+  /**
+   * Create a new instance of a avatar service.
+   *
+   * @param string $class
+   *   The class to instantiate.
+   * @param \dpi\ak\AvatarConfigurationInterface $configuration
+   *   The configuration of the avatar service.
+   *
+   * @return \dpi\ak\AvatarKit\AvatarServices\AvatarServiceInterface
+   *   Return a new avatar service.
+   */
+  protected function newInstance(string $class, AvatarConfigurationInterface $configuration) : AvatarServiceInterface {
+    return new $class($configuration);
   }
 
 }

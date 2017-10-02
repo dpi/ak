@@ -46,6 +46,14 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
   protected $classes = [];
 
   /**
+   * Cache of ID to class names.
+   *
+   * @var string[]
+   *   An array of classes keyed by annotation ID.
+   */
+  protected $idMap = [];
+
+  /**
    * Cache of avatar service classes.
    *
    * @var \dpi\ak\Annotation\AvatarService[]|null
@@ -141,10 +149,10 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
    * {@inheritdoc}
    */
   public function getMetadata(string $id) : AvatarService {
-    foreach ($this->getAvatarServices() as $annotation) {
-      if ($id == $annotation->id) {
-        return $annotation;
-      }
+    $class = $this->getClass($id);
+    $avatar_services = $this->getAvatarServices();
+    if (isset($avatar_services[$class])) {
+      return $avatar_services[$class];
     }
     throw new AvatarDiscoveryException(sprintf('Requested service `%s` does not exist.', $id));
   }
@@ -152,12 +160,22 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
   /**
    * {@inheritdoc}
    */
-  public function newInstance(string $id) : AvatarServiceInterface {
-    foreach ($this->getAvatarServices() as $class => $annotation) {
-      if ($id == $annotation->id) {
-        return new $class();
-      }
+  public function getClass(string $id) : string {
+    if (!isset($this->idMap)) {
+      $services = $this->getAvatarServices();
+      $this->idMap = array_combine(
+        array_map(function (AvatarService $service) {
+          return $service->id;
+        }, $services),
+        array_keys($services)
+      );
     }
+
+    $class = $this->idMap[$id] ?? NULL;
+    if ($class) {
+      return $class;
+    }
+
     throw new AvatarDiscoveryException(sprintf('Requested service `%s` does not exist.', $id));
   }
 

@@ -21,6 +21,16 @@ abstract class AvatarServiceBase implements AvatarServiceInterface {
   protected $configuration;
 
   /**
+   * Constructs a new Avatar service.
+   *
+   * @param \dpi\ak\AvatarConfigurationInterface $configuration
+   *   The avatar service configuration.
+   */
+  public function __construct(AvatarConfigurationInterface $configuration) {
+    $this->configuration = $configuration;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function createIdentifier() : AvatarIdentifierInterface {
@@ -32,13 +42,6 @@ abstract class AvatarServiceBase implements AvatarServiceInterface {
    */
   public function getConfiguration(): AvatarConfigurationInterface {
     return $this->configuration;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setConfiguration(AvatarConfigurationInterface $configuration) {
-    $this->configuration = $configuration;
   }
 
 }

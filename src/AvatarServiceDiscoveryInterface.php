@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace dpi\ak;
 
 use dpi\ak\Annotation\AvatarService;
-use dpi\ak\AvatarKit\AvatarServices\AvatarServiceInterface;
 
 /**
  * Discovers avatar services.
@@ -35,17 +34,17 @@ interface AvatarServiceDiscoveryInterface {
   public function getMetadata(string $id) : AvatarService;
 
   /**
-   * Create an instance of an avatar service.
+   * Get class name of an avatar service.
    *
    * @param string $id
    *   An avatar service ID.
    *
-   * @return \dpi\ak\AvatarKit\AvatarServices\AvatarServiceInterface
-   *   An instance of an avatar service.
+   * @return string
+   *   The class name of an avatar service.
    *
    * @throws \dpi\ak\Exception\AvatarDiscoveryException
    *   Thrown if the service does not exist.
    */
-  public function newInstance(string $id) : AvatarServiceInterface;
+  public function getClass(string $id) : string;
 
 }

@@ -31,20 +31,4 @@ interface AvatarServiceInterface {
    */
   public function createIdentifier() : AvatarIdentifierInterface;
 
-  /**
-   * Get the configuration for this service.
-   *
-   * @return \dpi\ak\AvatarConfigurationInterface
-   *   A configuration object.
-   */
-  public function getConfiguration(): AvatarConfigurationInterface;
-
-  /**
-   * Set the configuration for this service.
-   *
-   * @param \dpi\ak\AvatarConfigurationInterface $configuration
-   *   A configuration object.
-   */
-  public function setConfiguration(AvatarConfigurationInterface $configuration);
-
 }

@@ -24,7 +24,7 @@ class AvatarServiceFactoryTest extends PHPUnit_Framework_TestCase {
     $discovery = $this->getMock(AvatarServiceDiscoveryInterface::class);
     $exception = new AvatarDiscoveryException();
     $discovery->expects($this->once())
-      ->method('newInstance')
+      ->method('getClass')
       ->willThrowException($exception);
 
     $factory = new AvatarServiceFactory($discovery);
@@ -54,15 +54,7 @@ class AvatarServiceFactoryTest extends PHPUnit_Framework_TestCase {
       ->method('getMetadata')
       ->willReturn($fake_service);
 
-    $observer = $this->getMock(AvatarServiceInterface::class);
-    $matcher = !$exception ? $this->once() : $this->never();
-    $observer->expects($matcher)
-      ->method('setConfiguration');
-    $discovery
-      ->method('newInstance')
-      ->willReturn($observer);
-
-    $factory = new AvatarServiceFactory($discovery);
+    $factory = $this->getMock(AvatarServiceFactory::class, ['newInstance'], [$discovery]);
 
     $configuration = new AvatarConfiguration();
     if ($protocol) {
@@ -116,16 +108,7 @@ class AvatarServiceFactoryTest extends PHPUnit_Framework_TestCase {
       ->method('getMetadata')
       ->willReturn($fake_service_annotation);
 
-    // Assert the setWidth and setHeight methods may be called.
-    $observer = $this->getMock(AvatarServiceInterface::class);
-    $matcher = !$exception ? $this->once() : $this->never();
-    $observer->expects($matcher)
-      ->method('setConfiguration');
-    $discovery
-      ->method('newInstance')
-      ->willReturn($observer);
-
-    $factory = new AvatarServiceFactory($discovery);
+    $factory = $this->getMock(AvatarServiceFactory::class, ['newInstance'], [$discovery]);
 
     $configuration = new AvatarConfiguration();
     if ($width) {
