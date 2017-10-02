@@ -27,4 +27,4 @@ jobs:
         
       - run: vendor/bin/phpunit
       - run: vendor/bin/phpcs --config-set installed_paths vendor/drupal/coder/coder_sniffer
-      - run: vendor/bin/phpcs --standard=Drupal -n src
+      - run: vendor/bin/phpcs --standard=Drupal -n src tests

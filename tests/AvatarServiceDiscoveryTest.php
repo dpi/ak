@@ -2,6 +2,9 @@
 
 declare(strict_types = 1);
 
+use dpi\ak\Annotation\AvatarService;
+use dpi\ak\AvatarServiceDiscovery;
+
 /**
  * Tests avatar service discovery.
  *
@@ -10,18 +13,19 @@ declare(strict_types = 1);
 class AvatarServiceDiscoveryTest extends PHPUnit_Framework_TestCase {
 
   /**
+   * Test getClass method.
    *
    * @covers ::getClass
    */
-  function testGetClass() {
+  public function testGetClass() {
     $class = 'Fake\Class\Name';
     $id = 'id';
-    $discovery = $this->getMockBuilder(\dpi\ak\AvatarServiceDiscovery::class)
+    $discovery = $this->getMockBuilder(AvatarServiceDiscovery::class)
       ->disableOriginalConstructor()
       ->setMethods(['getAvatarServices'])
       ->getMock();
 
-    $fake_service_annotation = new \dpi\ak\Annotation\AvatarService();
+    $fake_service_annotation = new AvatarService();
     $fake_service_annotation->id = $id;
     $discovery->expects($this->once())
       ->method('getAvatarServices')
