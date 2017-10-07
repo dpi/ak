@@ -21,7 +21,8 @@ class AvatarServiceFactoryTest extends PHPUnit_Framework_TestCase {
    * Ensures the exception is not caught in createService.
    */
   public function testInvalidService() {
-    $discovery = $this->getMock(AvatarServiceDiscoveryInterface::class);
+    $discovery = $this->getMockBuilder(AvatarServiceDiscoveryInterface::class)
+      ->getMock();
     $exception = new AvatarDiscoveryException();
     $discovery->expects($this->once())
       ->method('getClass')
@@ -54,7 +55,10 @@ class AvatarServiceFactoryTest extends PHPUnit_Framework_TestCase {
       ->method('getMetadata')
       ->willReturn($fake_service);
 
-    $factory = $this->getMock(AvatarServiceFactory::class, ['newInstance'], [$discovery]);
+    $factory = $this->getMockBuilder(AvatarServiceFactory::class)
+      ->setMethods(['newInstance'])
+      ->setConstructorArgs([$discovery])
+      ->getMock();
 
     $configuration = new AvatarConfiguration();
     if ($protocol) {
@@ -108,7 +112,10 @@ class AvatarServiceFactoryTest extends PHPUnit_Framework_TestCase {
       ->method('getMetadata')
       ->willReturn($fake_service_annotation);
 
-    $factory = $this->getMock(AvatarServiceFactory::class, ['newInstance'], [$discovery]);
+    $factory = $this->getMockBuilder(AvatarServiceFactory::class)
+      ->setMethods(['newInstance'])
+      ->setConstructorArgs([$discovery])
+      ->getMock();
 
     $configuration = new AvatarConfiguration();
     if ($width) {
