@@ -1,5 +1,6 @@
 {
   "name": "dpi/ak",
+  "type": "library",
   "description": "Avatar Kit",
   "minimum-stability": "stable",
   "license": "Apache-2.0",
