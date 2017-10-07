@@ -20,7 +20,7 @@ class AvatarService {
    * @var string
    * @Required
    */
-  public $id;
+  public $id = '';
 
   /**
    * The friendly name for the service.
@@ -28,7 +28,7 @@ class AvatarService {
    * @var string
    * @Required
    */
-  public $name;
+  public $name = '';
 
   /**
    * The friendly name for the service.
@@ -62,7 +62,7 @@ class AvatarService {
    *
    * @var string
    */
-  public $dimensions;
+  public $dimensions = '';
 
   /**
    * Is Dynamic.
@@ -93,6 +93,6 @@ class AvatarService {
    * @var bool
    * @Required
    */
-  public $is_remote;
+  public $is_remote = FALSE;
 
 }

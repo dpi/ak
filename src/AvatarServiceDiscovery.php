@@ -38,26 +38,18 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
   protected $annotationClass;
 
   /**
-   * Cache of avatar service classes.
-   *
-   * @var string[]
-   *   An array of classes.
-   */
-  protected $classes = [];
-
-  /**
    * Cache of ID to class names.
    *
-   * @var string[]
+   * @var array|null
    *   An array of classes keyed by annotation ID.
    */
-  protected $idMap;
+  protected $idMap = NULL;
 
   /**
    * Cache of avatar service classes.
    *
-   * @var \dpi\ak\Annotation\AvatarService[]|null
-   *   An array of classes, or NULL if discovery has not yet taken place.
+   * @var \dpi\ak\Annotation\AvatarService[]
+   *   An array of avatar services keyed by class name.
    */
   protected $annotations;
 
@@ -78,7 +70,8 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
     $this->subdir = $subDirectory;
     $this->serviceInterface = $serviceInterface;
     $this->annotationClass = $annotationClass;
-    $this->discoverClasses($root_namespaces);
+    $classes = $this->discoverClasses($root_namespaces);
+    $this->annotations = $this->discoverAnnotations($classes);
   }
 
   /**
@@ -87,8 +80,13 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
    * @param array $namespaces
    *   An array of namespaces where keys are namespaces and values are
    *   directories.
+   *
+   * @return string[]
+   *   An array of classes.
    */
-  protected function discoverClasses(array $namespaces) : void {
+  protected function discoverClasses(array $namespaces) : array {
+    $classes = [];
+
     foreach ($namespaces as $namespace => $namespace_directories) {
       foreach ($namespace_directories as $namespace_directory) {
         $finder = $this->createFinder()
@@ -103,46 +101,54 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
             $sub_path = substr($sub_path, 1);
             $sub_path = str_replace('/', '\\', $sub_path);
             $sub_path .= '\\';
-            $this->classes[] = $namespace . $sub_path . $file->getBasename('.php');
+            $classes[] = $namespace . $sub_path . $file->getBasename('.php');
           }
         }
       }
     }
+
+    return $classes;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getAvatarServices() : array {
-    if (!isset($this->annotations)) {
-      $this->discoverAnnotations();
-    }
     return $this->annotations;
   }
 
   /**
    * Discovers and caches annotations.
+   *
+   * @param string[] $classes
+   *   An array of classes.
+   *
+   * @return \dpi\ak\Annotation\AvatarService[]
+   *   An array of avatar services keyed by class name.
    */
-  protected function discoverAnnotations() : void {
+  protected function discoverAnnotations(array $classes) : array {
     AnnotationRegistry::reset();
     AnnotationRegistry::registerLoader('class_exists');
 
     $reader = $this->createReader();
 
-    $this->annotations = [];
-    foreach ($this->classes as $class) {
+    $annotations = [];
+    foreach ($classes as $class) {
       $reflection = new \ReflectionClass($class);
       if (!$reflection->isSubclassOf($this->serviceInterface)) {
         continue;
       }
 
+      /** @var \dpi\ak\Annotation\AvatarService $annotation */
       $annotation = $reader->getClassAnnotation($reflection, $this->annotationClass);
       if ($annotation) {
-        $this->annotations[$class] = $annotation;
+        $annotations[$class] = $annotation;
       }
     }
 
     AnnotationRegistry::reset();
+
+    return $annotations;
   }
 
   /**
@@ -164,7 +170,7 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
     if (!isset($this->idMap)) {
       $services = $this->getAvatarServices();
       $this->idMap = array_combine(
-        array_map(function (AvatarService $service) {
+        array_map(function (AvatarService $service) : string {
           return $service->id;
         }, $services),
         array_keys($services)

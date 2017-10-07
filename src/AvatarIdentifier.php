@@ -16,21 +16,21 @@ class AvatarIdentifier implements AvatarIdentifierInterface {
    *
    * @var string|null
    */
-  protected $raw;
+  protected $raw = NULL;
 
   /**
    * The pre-hashed identifier.
    *
    * @var string|null
    */
-  protected $hashed;
+  protected $hashed = NULL;
 
   /**
    * A one way hashing algorithm.
    *
-   * @var callable
+   * @var callable|null
    */
-  protected $hasher;
+  protected $hasher = NULL;
 
   /**
    * {@inheritdoc}
@@ -58,12 +58,14 @@ class AvatarIdentifier implements AvatarIdentifierInterface {
     if (isset($this->hashed)) {
       return $this->hashed;
     }
-    elseif (isset($this->raw)) {
-      if (!is_callable($this->hasher)) {
+
+    $hasher = $this->hasher ?? NULL;
+    $raw = $this->raw ?? NULL;
+    if ($hasher && $raw) {
+      if (!is_callable($hasher)) {
         throw new AvatarIdentifierException('No hashing algorithm set.');
       }
-      $raw = $this->raw;
-      return call_user_func($this->hasher, $raw);
+      return call_user_func($hasher, $raw);
     }
     else {
       throw new AvatarIdentifierException('No values set.');

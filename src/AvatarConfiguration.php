@@ -26,9 +26,9 @@ class AvatarConfiguration implements AvatarConfigurationInterface {
   /**
    * The protocol of avatars.
    *
-   * @var string
+   * @var string|null
    */
-  protected $protocol;
+  protected $protocol = NULL;
 
   /**
    * {@inheritdoc}
