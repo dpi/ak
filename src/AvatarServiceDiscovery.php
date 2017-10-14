@@ -7,7 +7,6 @@ namespace dpi\ak;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\SimpleAnnotationReader;
 use dpi\ak\Annotation\AvatarService;
-use dpi\ak\AvatarKit\AvatarServices\AvatarServiceInterface;
 use dpi\ak\Exception\AvatarDiscoveryException;
 use Symfony\Component\Finder\Finder;
 

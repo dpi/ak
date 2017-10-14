@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace dpi\ak\AvatarKit\AvatarServices;
 
-use dpi\ak\AvatarConfigurationInterface;
 use dpi\ak\AvatarIdentifierInterface;
 
 /**
