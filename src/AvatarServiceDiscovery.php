@@ -88,6 +88,9 @@ class AvatarServiceDiscovery implements AvatarServiceDiscoveryInterface {
     $classes = [];
 
     foreach ($namespaces as $namespace => $namespace_directories) {
+      $namespace_directories = array_filter($namespace_directories, function ($dir) {
+        return is_dir($dir);
+      });
       foreach ($namespace_directories as $namespace_directory) {
         $finder = $this->createFinder()
           ->files()
