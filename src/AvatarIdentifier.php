@@ -61,7 +61,7 @@ class AvatarIdentifier implements AvatarIdentifierInterface {
 
     $hasher = $this->hasher ?? NULL;
     $raw = $this->raw ?? NULL;
-    if ($hasher && $raw) {
+    if ($raw) {
       if (!is_callable($hasher)) {
         throw new AvatarIdentifierException('No hashing algorithm set.');
       }
