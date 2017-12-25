@@ -32,7 +32,7 @@ class AvatarServiceFactory implements AvatarServiceFactoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function createService($id, AvatarConfigurationInterface $configuration) : AvatarServiceInterface {
+  public function createService(string $id, AvatarConfigurationInterface $configuration) : AvatarServiceInterface {
     // @todo if plugin is remote, require a destination for avatars.
     $metadata = $this->discovery->getMetadata($id);
 

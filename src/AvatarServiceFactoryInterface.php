@@ -31,6 +31,6 @@ interface AvatarServiceFactoryInterface {
    * @throws \dpi\ak\Exception\AvatarDiscoveryException
    *   If the requested plugin does not exist.
    */
-  public function createService($id, AvatarConfigurationInterface $configuration): AvatarServiceInterface;
+  public function createService(string $id, AvatarConfigurationInterface $configuration): AvatarServiceInterface;
 
 }
