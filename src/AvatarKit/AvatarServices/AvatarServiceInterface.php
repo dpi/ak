@@ -17,10 +17,13 @@ interface AvatarServiceInterface {
    * @param \dpi\ak\AvatarIdentifierInterface $identifier
    *   An identifier object.
    *
-   * @return string
-   *   The URI of the avatar.
+   * @return string|null
+   *   The URI of the avatar, or NULL if a acceptable/non-error occurred.
+   *
+   * @throws \Exception
+   *   Various exceptions on failure.
    */
-  public function getAvatar(AvatarIdentifierInterface $identifier) : string;
+  public function getAvatar(AvatarIdentifierInterface $identifier) : ?string;
 
   /**
    * Creates a new identifier suitable for this plugin.

@@ -26,7 +26,7 @@ class FakeAvatarService extends AvatarServiceBase {
   /**
    * {@inheritdoc}
    */
-  public function getAvatar(AvatarIdentifierInterface $identifier): string {
+  public function getAvatar(AvatarIdentifierInterface $identifier): ?string {
     return '';
   }
 
